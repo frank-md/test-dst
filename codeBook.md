@@ -6,44 +6,45 @@
  Dataset:
  -------- 
 
-	5940 obs. of  7 variables, it is contains average means and standard deviations for each measurement variable(listed 		                below) for each activity of each subject. The dataset was tranformed from the a long tidy dataset by separating 
-	the mesaurementVariables column into Unit (Time or Frequncy), measurementType (BodyAcc..), 	result_type (mean or std), and measures (x,y,z,mag). And spread mean and std as variables as they are come from the same measurement.
+	5940 obs. of  7 variables, it is contains average means and average standard deviations for each measurement variable
+	(listed below) for each activity of each subject. The dataset was transformed from the a long tidy dataset by separating 
+	the mesaurementVariables column into Unit (Time or Frequency), measurementType (BodyAcc..),result_type (mean or std), and 	measures (x,y,z,mag). And spread average mean and average std as individual columns as they are come from the same 	measurement.
  
 Columns:
 --------
  
  ###subject
  
-	Ids of people paticipated in the measurement.	            
+	Ids of people paticipated in the measurement, toatal 30 of them	            
 	: int  1 2 3 4 5 6 7 8 9 10 ..30  
 
  ###activity
  
-	activities the subject performed 
+	activities the subject performed, total 6 of them
         : chr  WALKING, WALKING_UPSTAIRS,WALKING_DOWNSTAIRS,SITTING, STANDING ,LAYING
 
  ###unit
-        : chr time,frequency 
+        : chr time,frequency, total 2 of them 
 	Raw signals: unit is time 
         Fast Fourier Transform signals: unit is Frequency	
  
- ###measures
+ ###measures 
        '-XYZ' is used to denote 3-axial signals in the X, Y and Z directions.
        'Mag' denotes magnitude of above three-dimensional signals.
-       : chr  "Mag" "X" "Y" "Z" ...
+       : chr  "Mag" "X" "Y" "Z" ... total 4 of them
 
  ###meanAverage
-       the averaged mean for each variable for each activity of each subject
+       the averaged mean for each variable for each activity of each subject, total 5940 obs.
        : num  -0.961 -0.924 -0.955 -0.874 -0.951 ...
 
  ###stdAverage
-       the averaged standard deviation for each variable for each activity of each subject
+       the averaged standard deviation for each variable for each activity of each subject, total 5940 obs.
        : num  -0.882 -0.951 -0.908 -0.919 -0.917 ..
 
  ###measurementType 
        BodyAcc,GravityAcc... denote measurement type such as Body accelation and gravity accelation, the details can be found
-       orginal dataset features_info.txt document.
-       : chr  "BodyAcc",...66 of them, they are encoded in the variable list below before dataset tidy transformation.
+       in the orginal dataset document features_info.txt.
+       : chr  "BodyAcc",...total 66 of them, they are encoded in the variable list below before dataset tidy transformation.
 
 Long tidy dataset measuremementVariables: 
 
@@ -126,7 +127,7 @@ replace  "()" with ""
 replace "-" with "_"
 
 
-from orginal measurement variables listed below:
+from orginal measurement variables (column 3 of list below):
 
 1    1           tBodyAcc-mean()-X
 2    2           tBodyAcc-mean()-Y
