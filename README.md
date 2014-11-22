@@ -2,7 +2,7 @@
 This README explains how the script run_analysis.R works.
 
 Data Source:
-----------------
+------------
 The dataset which this script works on are the data collected
 from the accelerometers of the Samsung Galaxy S smartphone.
 A full description is available at the site:
@@ -15,17 +15,17 @@ directory of desktop computer. The file are unzipped, and both training and test
 together with features and activity labels files are copied to an user's R work directory.  
 
 Purpose:
------------
- 1) Merges the training and the test sets to create one data set.
- 2) Extracts only the measurements on the mean and standard deviation for each measurement.
- 3) Uses descriptive activity names to name the activities in the data set
- 4) Appropriately labels the data set with descriptive variable names.
- 5) From the data set in step 4, creates a second, independent tidy data set with the average of
+--------
+ + 1) Merges the training and the test sets to create one data set. 
+ + 2) Extracts only the measurements on the mean and standard deviation for each measurement.
+ + 3) Uses descriptive activity names to name the activities in the data set
+ + 4) Appropriately labels the data set with descriptive variable names.
+ + 5) From the data set in step 4, creates a second, independent tidy data set with the average of
     each variable for each activity and each subject.
 
 Functions:
 ----------
-1. Read files into data.tables and merge test and data tables to create one dataset.
+* 1) Read files into data.tables and merge test and data tables to create one dataset.
 After read in the files, we have the activity_labels contains all activity labels and its numerical ids,
 the features contains ids and 561 variables, the subject_train/y_train and subject_test/y_test contains the ids of
 subject/activity for each of the observations recorded in the x_train and x_test file,
@@ -38,7 +38,7 @@ cbind() to bind them to x_train and x_test respectively.
 Now we can use rbind() function to combine train and test data together resulting a data table b_x contains
 total 10299 observations of 563 variables.
 
-2. Extracts only the measurements on the mean and standard deviation for each measurement.
+* 2) Extracts only the measurements on the mean and standard deviation for each measurement.
 
 Subset the feature table to extract only rows contains 'std', resulting 33 entries.
 Subset the feature table to extract only rows contains 'mean'; resulting 46 entries.
@@ -56,37 +56,37 @@ Use select() function from dply package on the b_x data table obtained from step
 which contains only means and its stds for each subject and activities plus activity and subject columns.
 The resulting subset table is data table b_x_s.
 
-3. Uses descriptive activity names (6 of them) to name the activities in the data set
+* 3) Uses descriptive activity names (6 of them) to name the activities in the data set
 Use select function to obtain a subset for activity from the activity column (V562) in the b_x_s.
 Use gsub function to replaces activity ids in the subset with activity labels.
 Use mutate function to replace contents of the existing activity column with the transformed activity table.
 
-4. Appropriately labels the data set with descriptive variable names.
+* 4) Appropriately labels the data set with descriptive variable names.
 Without knowing the domain of the measurement, I would like to keep the the original variable names as much as possible,
 unless the abbreviations are to short and characters are not friendly to R such as "()" and "-". By reading the features_info, I also realize
 the column names in the dataset are not consistently labeled ( %Mag-mean should really be -mean-Mag), the typos (fBodyBody
 should really be fBody). I will use "_" to replace "-" and use it as a separator for tidy dataset transformations.
 
-Replace "tBody" with "Time_Body"
-Replace "tGravity" with "Time_Gravity"
-Replace "fBody" with "Frequency_Body"
-Replace "fGravity" with "Frequency_Gravity"
-replace "Mag-mean" with "_mean_Mag"
-replace "Mag-std" with "_std_Mag"
-replace  "()" with ""
-replace "-" with "_"
+- Replace "tBody" with "Time_Body"
+- Replace "tGravity" with "Time_Gravity"
+- Replace "fBody" with "Frequency_Body"
+- Replace "fGravity" with "Frequency_Gravity"
+- replace "Mag-mean" with "_mean_Mag"
+- replace "Mag-std" with "_std_Mag"
+- replace  "()" with ""
+- replace "-" with "_"
 
 
-5. From the data set in step 4, creates a second, independent tidy data set
+* 5) From the data set in step 4, creates a second, independent tidy data set
 with the average of each variable for each activity and each subject.
 
-Using aggregate function to group and calculate the average for each
-measurement variable...and put it in a list .. loop through all 66 variables.
-Join 66 data frames in the list by using join_all in the library(plyr)
-make a tidy long data set by using melt of library(reshape) and rename value column to averageValue
-write out the dataset as an intermediate result.
-write.table(df_tidy_long, file = "df_tidy_long.csv",row.names=FALSE, na="", sep=",")
-Now we get a long tidy data set, but the measurementVariable is still encoded some variables...
+- Using aggregate function to group and calculate the average for each
+- measurement variable...and put it in a list .. loop through all 66 variables.
+- Join 66 data frames in the list by using join_all in the library(plyr)
+- make a tidy long data set by using melt of library(reshape) and rename value column to averageValue
+- write out the dataset as an intermediate result.
+- write.table(df_tidy_long, file = "df_tidy_long.csv",row.names=FALSE, na="", sep=",")
+- Now we get a long tidy data set, but the measurementVariable is still encoded some variables...
 To make the data set more searchable (like a database table), we can normalize df_tidy_long by using separate function
 from library(tidyr) to separate the mesaurementVariables column into Unit (Time or Frequency), measurementType (BodyAcc..), result_type (mean or std), and measures (x,y,z,mag).
 
